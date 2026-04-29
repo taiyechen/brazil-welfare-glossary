@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary Map — Windfall Welfare Preparedness: Brazil</title>
+<style>
+  :root {
+    --col-program:   #1a7f5a;
+    --col-program-bg:#e8f7f0;
+    --col-data:      #1565c0;
+    --col-data-bg:   #e3edf9;
+    --col-inst:      #4a235a;
+    --col-inst-bg:   #f3eaf7;
+    --col-tech:      #7b3f00;
+    --col-tech-bg:   #fdf0e0;
+    --col-law:       #b71c1c;
+    --col-law-bg:    #fdecea;
+    --col-policy:    #006064;
+    --col-policy-bg: #e0f7fa;
+
+    --sec-coping:    #e53935;
+    --sec-adaptive:  #fb8c00;
+    --sec-transform: #3949ab;
+    --sec-systemic:  #00897b;
+    --sec-cross:     #546e7a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: #f4f6f8;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #1a1a2e;
+    color: white;
+    padding: 20px 32px 16px;
+  }
+  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.02em; }
+  header p  { font-size: 0.8rem; color: #aab; margin-top: 4px; }
+
+  /* Section legend */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 12px 32px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .leg-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.72rem; font-weight: 600;
+    color: #333;
+  }
+  .leg-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .leg-sep { color: #ccc; margin: 0 4px; }
+
+  /* Filter bar */
+  .filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 12px 32px;
+    background: #f4f6f8;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+  }
+  .filter-bar span { font-size: 0.75rem; color: #666; margin-right: 4px; }
+  .filter-btn {
+    padding: 4px 12px; border-radius: 20px; border: 1.5px solid #ccc;
+    background: white; cursor: pointer; font-size: 0.72rem; font-weight: 600;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover  { border-color: #555; background: #f0f0f0; }
+  .filter-btn.active { border-color: #1a1a2e; background: #1a1a2e; color: white; }
+
+  /* Main grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 20px 32px 40px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 8px;
+    border: 1.5px solid #e0e0e0;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 8px 0 0 8px;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); transform: translateY(-1px); }
+  .card.expanded { box-shadow: 0 6px 24px rgba(0,0,0,0.16); }
+
+  /* Category accent colors */
+  .cat-program  { border-color: var(--col-program);  }
+  .cat-program::before  { background: var(--col-program); }
+  .cat-data     { border-color: var(--col-data);     }
+  .cat-data::before     { background: var(--col-data); }
+  .cat-inst     { border-color: var(--col-inst);     }
+  .cat-inst::before     { background: var(--col-inst); }
+  .cat-tech     { border-color: var(--col-tech);     }
+  .cat-tech::before     { background: var(--col-tech); }
+  .cat-law      { border-color: var(--col-law);      }
+  .cat-law::before      { background: var(--col-law); }
+  .cat-policy   { border-color: var(--col-policy);   }
+  .cat-policy::before   { background: var(--col-policy); }
+
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+
+  .term-name {
+    font-size: 0.9rem; font-weight: 700; line-height: 1.3;
+    flex: 1;
+  }
+  .cat-badge {
+    font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; padding: 2px 7px; border-radius: 10px;
+    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .cat-program .cat-badge  { background: var(--col-program-bg); color: var(--col-program); }
+  .cat-data    .cat-badge  { background: var(--col-data-bg);    color: var(--col-data); }
+  .cat-inst    .cat-badge  { background: var(--col-inst-bg);    color: var(--col-inst); }
+  .cat-tech    .cat-badge  { background: var(--col-tech-bg);    color: var(--col-tech); }
+  .cat-law     .cat-badge  { background: var(--col-law-bg);     color: var(--col-law); }
+  .cat-policy  .cat-badge  { background: var(--col-policy-bg);  color: var(--col-policy); }
+
+  .summary {
+    font-size: 0.76rem; color: #555; margin-top: 6px; line-height: 1.5;
+  }
+
+  .full-def {
+    display: none;
+    font-size: 0.75rem; color: #333; margin-top: 10px;
+    border-top: 1px solid #eee; padding-top: 10px; line-height: 1.6;
+  }
+  .card.expanded .full-def { display: block; }
+
+  .sections {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;
+  }
+  .sec-pill {
+    font-size: 0.6rem; font-weight: 700; padding: 2px 8px;
+    border-radius: 10px; color: white; white-space: nowrap;
+  }
+  .sec-cop { background: var(--sec-coping); }
+  .sec-ada { background: var(--sec-adaptive); }
+  .sec-trn { background: var(--sec-transform); }
+  .sec-sys { background: var(--sec-systemic); }
+  .sec-X   { background: var(--sec-cross); }
+
+  /* Count bar at top right */
+  .count-bar {
+    display: flex; gap: 16px; padding: 10px 32px 0;
+    font-size: 0.72rem; color: #666;
+  }
+  .count-bar strong { color: #1a1a2e; }
+
+  /* Hidden class for filtering */
+  .card.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Glossary Map — Windfall Welfare Preparedness: Brazil Case Study</h1>
+  <p>31 terms across 6 categories · Click any card to expand the full definition · Filter by category or paper section</p>
+</header>
+
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-program)"></div>Social Programs</div>
+  <div class="leg-sep">|</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-data)"></div>Data Systems</div>
+  <div class="leg-sep">|</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-inst)"></div>Institutions</div>
+  <div class="leg-sep">|</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-tech)"></div>Technology</div>
+  <div class="leg-sep">|</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-law)"></div>Laws &amp; Bills</div>
+  <div class="leg-sep">|</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--col-policy)"></div>Plans &amp; Agreements</div>
+  <div class="leg-sep">||</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-coping)"></div>Coping</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-adaptive)"></div>Adaptive</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-transform)"></div>Transformative</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-systemic)"></div>Systemic</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-cross)"></div>Cross-cutting</div>
+</div>
+
+<div class="filter-bar">
+  <span>Filter:</span>
+  <button class="filter-btn active" data-filter="all">All 31</button>
+  <button class="filter-btn" data-filter="cat-program">Social Programs</button>
+  <button class="filter-btn" data-filter="cat-data">Data Systems</button>
+  <button class="filter-btn" data-filter="cat-inst">Institutions</button>
+  <button class="filter-btn" data-filter="cat-tech">Technology</button>
+  <button class="filter-btn" data-filter="cat-law">Laws &amp; Bills</button>
+  <button class="filter-btn" data-filter="cat-policy">Plans &amp; Agreements</button>
+  <button class="filter-btn" data-filter="sec-cop">Coping</button>
+  <button class="filter-btn" data-filter="sec-ada">Adaptive</button>
+  <button class="filter-btn" data-filter="sec-trn">Transformative</button>
+  <button class="filter-btn" data-filter="sec-sys">Systemic</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- ── SOCIAL PROGRAMS ── -->
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop sec-X">
+    <div class="card-header">
+      <div class="term-name">Bolsa Família</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">Brazil's main federal cash transfer for low-income families; the primary income floor at the bottom of the distribution.</div>
+    <div class="full-def">Brazil's main federal cash transfer program for low-income families, administered by the Ministry of Social Development. Eligibility runs through CadÚnico and is means-tested, with active monitoring of school attendance and health requirements. In this paper it is the primary income floor for households at the bottom of the distribution — and a boundary condition for the "missing middle" problem, since displaced formal workers above its threshold fall outside its reach.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop sec-X">
+    <div class="card-header">
+      <div class="term-name">Seguro Desemprego</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">Unemployment insurance for formal workers dismissed without cause; 3–5 months at ~80% of prior wages, paid through Caixa.</div>
+    <div class="full-def">Unemployment insurance for formal workers dismissed without cause, paid through Caixa for three to five months at roughly 80% of prior wages (subject to floors and ceilings). In this paper it is the main short-term income buffer for formal workers after dismissal, but it does not cover informal workers and was designed for cyclical unemployment, not prolonged occupational displacement. For the missing middle, the insurance window often runs out before re-employment is secured.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop">
+    <div class="card-header">
+      <div class="term-name">FGTS</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">Mandatory employer-funded severance reserve: 8% of monthly salary deposited per worker, accessible on dismissal without cause.</div>
+    <div class="full-def">Fundo de Garantia do Tempo de Serviço. A mandatory employer-funded severance reserve for formal employees: employers deposit 8% of monthly salary into an individual account at Caixa, accessible on dismissal without cause, and also drawable for home purchase, serious illness, or retirement. In this paper it functions as a forced savings buffer that supplements Seguro Desemprego, but both instruments were designed for cyclical unemployment and may not provide adequate protection during structural displacement from AI.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop">
+    <div class="card-header">
+      <div class="term-name">Regra de Proteção</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">Bolsa Família transition rule letting eligible families keep 50% of the benefit for a limited period after earnings rise above the threshold.</div>
+    <div class="full-def">A Bolsa Família transition rule that lets eligible families temporarily keep part of the benefit (50%) for a limited period after earnings rise above the ordinary entry threshold. In this paper it is the closest existing bridge between income support and re-entry into formal work. Critically, it applies only to families already inside the program — it does not help displaced formal workers above the threshold who were never enrolled.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop">
+    <div class="card-header">
+      <div class="term-name">Auxílio Emergencial</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">COVID-19 emergency transfer (2020) reaching ~66 million beneficiaries via CadÚnico and Caixa — proof of concept for rapid large-scale cash mobilization.</div>
+    <div class="full-def">The emergency cash transfer program deployed during the COVID-19 pandemic in 2020, which reached approximately 66 million beneficiaries — most of them informal and low-income workers — within weeks via CadÚnico and Caixa. In this paper it matters as proof of concept for rapid cash mobilization at population scale, though it required extraordinary political authorization; no standing rule creates the same disbursement capacity.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-program" data-cats="cat-program" data-secs="sec-ada">
+    <div class="card-header">
+      <div class="term-name">Mulheres na Tecnologia</div>
+      <div class="cat-badge">Social Program</div>
+    </div>
+    <div class="summary">Retraining scholarship program under the 2024–2026 Banking CCT: ~3,100 scholarships with priority for Black women, single mothers, and transgender women.</div>
+    <div class="full-def">A retraining scholarship program negotiated under the 2024–2026 banking CCT and funded by FENABAN-affiliated banks. It offers approximately 3,000 scholarships through PrograMaria and 100 through Laboratória (approximately 3,100 in total), with explicit priority for Black women, single mothers, and transgender women. In this paper it is a bounded sectoral example of adaptive provision for workers in high-AI-exposure occupations, but it is limited to formal banking workers with union representation.
+      <div class="sections">
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DATA SYSTEMS ── -->
+
+  <div class="card cat-data" data-cats="cat-data" data-secs="sec-cop sec-X">
+    <div class="card-header">
+      <div class="term-name">CadÚnico</div>
+      <div class="cat-badge">Data System</div>
+    </div>
+    <div class="summary">Federal social registry covering ~96.8 million people (~45% of population); gateway for Bolsa Família and other non-contributory benefits.</div>
+    <div class="full-def">Cadastro Único para Programas Sociais. Brazil's federal social registry for low-income families, covering about 96.8 million people (roughly 45% of the population) and administered by the Ministry of Social Development. It collects socioeconomic data and serves as the gateway for determining eligibility for Bolsa Família and other non-contributory benefits. Registration does not by itself grant benefits. In this paper it is both the targeting base for AI-displacement responses and part of the data infrastructure needed for proactive worker identification.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-data" data-cats="cat-data" data-secs="sec-sys sec-X">
+    <div class="card-header">
+      <div class="term-name">CNIS</div>
+      <div class="cat-badge">Data System</div>
+    </div>
+    <div class="summary">National social information records base for work history, earnings, and contributions — the foundation for INSS automated benefit decisions.</div>
+    <div class="full-def">Cadastro Nacional de Informações Sociais. The national administrative records base for work, earnings, and contribution histories, maintained by the INSS and fed by eSocial and other administrative sources. In this paper it matters because INSS benefit analysis depends heavily on these records — and data quality problems identified in a 2021 TCU review mean that an unreliable foundation is driving consequential automated decisions.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-data" data-cats="cat-data" data-secs="sec-trn sec-X">
+    <div class="card-header">
+      <div class="term-name">RAIS</div>
+      <div class="cat-badge">Data System</div>
+    </div>
+    <div class="summary">Annual mandatory employer report to the Ministry of Labor with detailed formal employment data: worker demographics, occupation, wages, hiring, and separation.</div>
+    <div class="full-def">Relação Anual de Informações Sociais. An annual mandatory employer report submitted to the Ministry of Labor, with detailed data on formal employment: worker demographics, occupation, wages, hiring, and separation. Brazil's most granular source of formal labor market data. In this paper it is a key ingredient for a proactive worker-targeting system — identifying workers in high-AI-exposure occupations before displacement — but linking it to CadÚnico for this purpose requires legal authorization under the LGPD and an inter-ministerial data-sharing protocol.
+      <div class="sections">
+        <span class="sec-pill sec-trn">Transformative</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-data" data-cats="cat-data" data-secs="sec-trn">
+    <div class="card-header">
+      <div class="term-name">eSocial</div>
+      <div class="cat-badge">Data System</div>
+    </div>
+    <div class="summary">Unified employer reporting system consolidating labor, payroll, social security, and FGTS information for compliance monitoring.</div>
+    <div class="full-def">A unified employer reporting system that consolidates labor, payroll, social security, FGTS, and related fiscal information into a single digital platform. In this paper it matters as part of the administrative base for monitoring payroll-linked activity and welfare financing — and as a data source that feeds into CNIS and hence into INSS automated decisions.
+      <div class="sections">
+        <span class="sec-pill sec-trn">Transformative</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-data" data-cats="cat-data" data-secs="sec-trn">
+    <div class="card-header">
+      <div class="term-name">EFD-Reinf</div>
+      <div class="cat-badge">Data System</div>
+    </div>
+    <div class="summary">Digital fiscal reporting module (SPED) covering non-payroll withholding taxes, service payments, and dividend information — links dividend taxation to compliance infrastructure.</div>
+    <div class="full-def">Escrituração Fiscal Digital de Retenções e Outras Informações Fiscais. A module of Brazil's SPED platform that complements eSocial by reporting non-payroll tax information, including withholding taxes, service payments, and other fiscal events. In this paper it matters as the administrative reporting channel through which the new dividend withholding tax (Law 15.270/2025) will be collected and verified — connecting the structural tax reform to existing compliance infrastructure.
+      <div class="sections">
+        <span class="sec-pill sec-trn">Transformative</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INSTITUTIONS ── -->
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-cop sec-sys">
+    <div class="card-header">
+      <div class="term-name">INSS</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">National social-security institute administering pensions, disability, maternity, and sickness benefits — and the locus of AI-assisted automation risk.</div>
+    <div class="full-def">Instituto Nacional do Seguro Social. Brazil's national social-security institute, responsible for administering contributory benefits including pensions, disability benefits, maternity pay, and sickness allowances. In this paper it is the central institution for both disruptive risk (AI-assisted automation of benefit decisions via Isaac/Dataprev) and access-and-delivery risk (rising denial rates, long appeal queues, and over-reliance on Meu INSS as the primary interface).
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">CRPS</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">Social Security Appeals Board hearing appeals against INSS denials — current average processing time: 278 days.</div>
+    <div class="full-def">Conselho de Recursos da Previdência Social. The Social Security Appeals Board, the administrative body that hears appeals against INSS benefit denials. In this paper it is the main formal redress channel — and the main bottleneck: the average appeal processing time reached 278 days in 2025, meaning formal appeal rights are not translating into timely redress. Multiple filing channels exist (Central 135, CRPS website, Meu INSS, INSS Digital, in-person), but navigation burden is high, especially for rural and elderly claimants.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">Dataprev</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">State-owned IT company operating the technology systems for INSS benefit decisions, including the AI-assisted automation layer (Isaac).</div>
+    <div class="full-def">The state-owned IT company that develops and operates the technology systems for INSS benefit decisions, including the AI-assisted automation layer. In this paper it matters as the institutional locus of the technical architecture underlying automated benefit analysis — and therefore a key actor for any transparency or audit reform of INSS automation.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">CGU</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">Office of the Comptroller General — Brazil's primary federal internal-control body; already identified governance weaknesses in INSS automation (2023 audit).</div>
+    <div class="full-def">Controladoria-Geral da União. The Office of the Comptroller General, Brazil's primary internal-control body within the federal executive, which conducts audits, investigations, and oversight of federal agencies. In this paper it matters because a 2023 CGU audit identified planning, governance, monitoring, and transparency weaknesses in INSS automation — including a rise in the automated denial share from 41% in 2021 to 65% in 2022. Reinstating routine CGU audit of INSS automation is one of the paper's near-term governance recommendations.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">TCU</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">Federal Court of Audit — Brazil's supreme audit institution, autonomous and linked to the legislature; conducts episodic audits of federal agencies including INSS and CNIS.</div>
+    <div class="full-def">Tribunal de Contas da União. The Federal Court of Audit, Brazil's supreme audit institution, autonomous and linked to the legislative branch. In this paper it matters as the external audit institution that has reviewed INSS operations and CNIS data quality — including a 2021 review that identified data quality problems in CNIS records. Its interventions are episodic and do not substitute for standing internal-control oversight.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys sec-X">
+    <div class="card-header">
+      <div class="term-name">Caixa Econômica Federal</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">State-owned bank that is the primary delivery channel for Seguro Desemprego, FGTS, and Bolsa Família; nationwide branch network including remote municipalities.</div>
+    <div class="full-def">A state-owned bank that functions as the primary delivery channel for federal social programs (Seguro Desemprego, FGTS, Bolsa Família payments) and operates a nationwide branch network including in small and remote municipalities. In this paper it is proposed as a formal in-person intake point for INSS appeals and biometric verification — since Caixa branches already serve as an informal fallback for populations excluded by mandatory digital channels.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys sec-X">
+    <div class="card-header">
+      <div class="term-name">ANPD</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">National Data Protection Authority, responsible for enforcing the LGPD; the de facto lead for AI-related data governance until a dedicated AI regulator is established.</div>
+    <div class="full-def">Autoridade Nacional de Proteção de Dados. Brazil's National Data Protection Authority, responsible for enforcing the LGPD and designated as the lead for AI-related data protection in the absence of a dedicated AI regulator. In this paper it matters as the primary data-governance actor for AI in public services — but its mandate is data protection, not AI governance broadly, and without PL 2338/2023 or an equivalent framework, it cannot by itself supply a full AI accountability architecture. AI-related data protection currently runs through ANPD; no dedicated AI regulator with an active mandate yet exists.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-ada">
+    <div class="card-header">
+      <div class="term-name">Sistema S</div>
+      <div class="cat-badge">Institution</div>
+    </div>
+    <div class="summary">Employer-funded vocational training network (especially SENAI and SENAC) with nationwide physical reach — the main existing retraining infrastructure, oriented toward youth and incumbents.</div>
+    <div class="full-def">Brazil's network of employer-funded vocational training institutions, financed through compulsory employer payroll contributions and operated under corporatist structures linked to industry (SENAI), commerce (SENAC), and other federations. In this paper it matters as the main existing training architecture with both physical reach and experienced faculty. Its mandate and curriculum serve youth and incumbent formal workers; mid-career transition for AI-displaced workers is not a standing part of its remit.
+      <div class="sections">
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TECHNOLOGY ── -->
+
+  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">Isaac</div>
+      <div class="cat-badge">Technology</div>
+    </div>
+    <div class="summary">AI-assisted automation layer handling a growing share of INSS benefit decisions by cross-referencing applicant data against CNIS records. The "Isaac" label is used by researchers, not an official system name.</div>
+    <div class="full-def">The AI-assisted automation layer that handles a growing share of INSS benefit decisions by cross-referencing applicant data against CNIS records. In this paper it matters as the automation mechanism at the center of the access-and-delivery risk: the scale of automated decisions has grown faster than routine external audit coverage. The "Isaac" label is used by researchers and reporting; it is not an officially named government system.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-sys">
+    <div class="card-header">
+      <div class="term-name">Meu INSS</div>
+      <div class="cat-badge">Technology</div>
+    </div>
+    <div class="summary">Digital app and web portal for citizens to file INSS claims and appeals — one of several filing channels, but the primary digital interface.</div>
+    <div class="full-def">The digital app and web portal through which Brazilian citizens file social-security claims and appeals with the INSS. In this paper it matters because in practice it has become the primary digital interface for benefit interactions — but it is one of several official channels (alongside Central 135, CRPS website, INSS Digital, and in-person service), and it excludes rural, elderly, and digitally constrained claimants who cannot navigate it independently.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-cop sec-X">
+    <div class="card-header">
+      <div class="term-name">Pix</div>
+      <div class="cat-badge">Technology</div>
+    </div>
+    <div class="summary">Brazil's instant-payment rail (Central Bank, launched November 2020) enabling real-time, zero-cost transfers — the delivery infrastructure for government cash transfers.</div>
+    <div class="full-def">Brazil's instant-payment system, launched by the Central Bank in November 2020. It enables real-time, zero-cost transfers between individuals, businesses, and government, and has become the dominant payment rail for government cash transfers. In this paper it matters as the payment infrastructure that enables rapid, at-scale delivery of transfers once eligibility is determined — as demonstrated by COVID-era emergency payments after Pix launched (note: Pix was not yet available during the April 2020 Auxílio Emergencial deployment).
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LAWS & BILLS ── -->
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-sys sec-X">
+    <div class="card-header">
+      <div class="term-name">LGPD</div>
+      <div class="cat-badge">Law</div>
+    </div>
+    <div class="summary">Brazil's General Data Protection Law (2018, effective 2020); Article 20 gives individuals the right to request human review of decisions made by automated processing.</div>
+    <div class="full-def">Lei Geral de Proteção de Dados. Brazil's General Data Protection Law, passed in 2018 and effective from 2020, broadly modeled on the EU's GDPR. Article 20 gives individuals the right to request review of decisions made solely through automated processing of personal data — the current legal baseline for challenging automated benefit denials. In this paper it matters as both a data-governance framework for AI use and as the legal constraint on inter-agency data sharing (e.g., linking RAIS to CadÚnico).
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-sys sec-X">
+    <div class="card-header">
+      <div class="term-name">PL 2338/2023</div>
+      <div class="cat-badge">Pending Bill</div>
+    </div>
+    <div class="summary">Brazil's pending national AI bill — risk-based framework with Algorithmic Impact Assessments, and rights to explanation, contestation, and human review for high-risk AI systems.</div>
+    <div class="full-def">Brazil's pending national AI bill. It would create a risk-based regulatory framework, require Algorithmic Impact Assessments for high-risk systems, and create rights to information, explanation, contestation, and human review in employment, worker management, access to self-employment, and assistance and social-security services. As of April 5, 2026, it remained pending in the Chamber awaiting rapporteur review. In this paper it is both the most consequential piece of pending AI governance and an uncertain enabling condition for several near-term recommendations.
+      <div class="sections">
+        <span class="sec-pill sec-sys">Systemic</span>
+        <span class="sec-pill sec-X">Cross-cutting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-cop sec-ada">
+    <div class="card-header">
+      <div class="term-name">PLP 12/2024</div>
+      <div class="cat-badge">Pending Bill</div>
+    </div>
+    <div class="summary">Pending bill for app-based passenger transport drivers (ride-hailing): social-security contributions and labor protections for that segment only.</div>
+    <div class="full-def">A pending complementary-law bill focused on app-based passenger transport drivers (four-wheeled ride-hailing). It would define social-security contributions and labor protections for that segment, but not for the whole platform workforce. As of April 5, 2026, it remained pending in committee. If enacted, it would partially close an important contribution gap, but it would not resolve the broader protection deficit across platform and informal work.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-cop sec-ada">
+    <div class="card-header">
+      <div class="term-name">PLP 152/2025</div>
+      <div class="cat-badge">Pending Bill</div>
+    </div>
+    <div class="summary">Broader pending bill covering both passenger-transport and delivery platform workers — wider scope than PLP 12/2024, which applies only to ride-hailing drivers.</div>
+    <div class="full-def">A pending complementary-law bill that proposes a regulatory framework covering both passenger-transport and delivery platform workers. It is broader in scope than PLP 12/2024, which applies only to passenger-transport drivers. In this paper it represents the more comprehensive legislative option for platform-worker social protection, though still pending in Congress.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-cop sec-ada">
+    <div class="card-header">
+      <div class="term-name">PL 2479/2025</div>
+      <div class="cat-badge">Pending Bill</div>
+    </div>
+    <div class="summary">Pending bill setting minimum pay standards, transparency requirements, and mandatory accident insurance for delivery platform workers.</div>
+    <div class="full-def">A pending bill before Congress that would set minimum pay standards, transparency requirements, and mandatory accident insurance for delivery platform workers. In this paper it represents another legislative option in the queue of platform-worker protections, alongside PLP 12/2024 and PLP 152/2025.
+      <div class="sections">
+        <span class="sec-pill sec-cop">Coping</span>
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-trn">
+    <div class="card-header">
+      <div class="term-name">VAT Reform (CBS &amp; IBS)</div>
+      <div class="cat-badge">Law</div>
+    </div>
+    <div class="summary">Major tax reform replacing Brazil's fragmented indirect taxes with dual VAT (CBS federal + IBS state/municipal); phase-in runs to 2033 with state compensation mechanisms.</div>
+    <div class="full-def">A major tax reform shifting Brazil from its fragmented indirect tax system to a dual value-added tax: CBS (federal, replacing PIS/COFINS) and IBS (subnational, replacing ICMS/ISS). Enacted through Lei Complementar 214/2025, with a transition phase running to 2033 and state-compensation mechanisms to offset revenue losses for losing states and sectors. In this paper it matters as the main structural broadening of non-payroll taxation, though the long phase-in and compensation mechanisms limit the near-term fiscal dividend for AI-related welfare policy.
+      <div class="sections">
+        <span class="sec-pill sec-trn">Transformative</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-law" data-cats="cat-law" data-secs="sec-trn">
+    <div class="card-header">
+      <div class="term-name">Law 15.270/2025 (Dividend Tax)</div>
+      <div class="cat-badge">Law</div>
+    </div>
+    <div class="summary">10% withholding tax on dividends above BRL 50,000/month from Brazilian companies, effective January 2026 — partial shift toward taxing capital income.</div>
+    <div class="full-def">Legislation effective from January 2026 that introduces a 10% withholding tax on dividends above BRL 50,000 per month paid by Brazilian companies. In this paper it matters as a partial step toward taxing capital income — counterbalancing some of the welfare-financing pressure that would result from AI-driven capital deepening and reduced payroll-tax revenues. The scope and rate are modest relative to the potential scale of the fiscal challenge.
+      <div class="sections">
+        <span class="sec-pill sec-trn">Transformative</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PLANS & AGREEMENTS ── -->
+
+  <div class="card cat-policy" data-cats="cat-policy" data-secs="sec-ada">
+    <div class="card-header">
+      <div class="term-name">PBIA</div>
+      <div class="cat-badge">Plan</div>
+    </div>
+    <div class="summary">Brazil's National AI Plan for 2024–2028 (up to R$23 billion): literacy, technical training, R&amp;D, and compute infrastructure — supply-side, not a welfare program.</div>
+    <div class="full-def">Plano Brasileiro de Inteligência Artificial. Brazil's national AI plan for 2024–2028, with a total commitment of up to R$23 billion across literacy, technical training, research, and compute infrastructure. PBIA focuses on building AI-capable workers — through literacy, training, and research investment — and does not, on its own, fund mid-career transition support for workers displaced by AI.
+      <div class="sections">
+        <span class="sec-pill sec-ada">Adaptive</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card cat-policy" data-cats="cat-policy" data-secs="sec-ada sec-cop">
+    <div class="card-header">
+      <div class="term-name">CCT (Banking, 2024–2026)</div>
+      <div class="cat-badge">Agreement</div>
+    </div>
+    <div class="summary">Sectoral collective bargaining agreement between banking unions and FENABAN; includes retraining mandates and the Mulheres na Tecnologia program — a bounded sectoral template.</div>
+    <div class="full-def">Convenção Coletiva de Trabalho. A sectoral collective bargaining agreement negotiated between unions and employer associations. In this paper it refers mainly to the 2024–2026 Banking CCT, which includes negotiated retraining provisions and the Mulheres na Tecnologia scholarship program. Used as a bounded template for adaptive provision, though its replicability depends on union capacity that is strong in banking but weaker in retail, BPO, and back-office services where AI displacement is also widening.
+      <div class="sections">
+        <span class="sec-pill sec-ada">Adaptive</span>
+        <span class="sec-pill sec-cop">Coping</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid -->
+
+<script>
+  // Expand/collapse cards
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+  });
+
+  // Filter buttons
+  const btns  = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      cards.forEach(card => {
+        if (filter === 'all') {
+          card.classList.remove('hidden');
+          return;
+        }
+        const cats = (card.dataset.cats || '').split(' ');
+        const secs = (card.dataset.secs || '').split(' ');
+        const all  = [...cats, ...secs];
+        card.classList.toggle('hidden', !all.includes(filter));
+      });
+    });
+  });
+</script>
+</body>
+</html>
