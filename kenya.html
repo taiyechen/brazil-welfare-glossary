@@ -3,507 +3,576 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glossary Map — Windfall Welfare Preparedness: Kenya</title>
+<title>Welfare Preparedness: Kenya — Windfall Trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case-study.css">
 <style>
+  /* ── Kenya country tokens ── */
   :root {
-    --col-program:   #1a7f5a;
-    --col-program-bg:#e8f7f0;
-    --col-data:      #1565c0;
-    --col-data-bg:   #e3edf9;
-    --col-inst:      #4a235a;
-    --col-inst-bg:   #f3eaf7;
-    --col-tech:      #7b3f00;
-    --col-tech-bg:   #fdf0e0;
-    --col-law:       #b71c1c;
-    --col-law-bg:    #fdecea;
-    --col-policy:    #006064;
-    --col-policy-bg: #e0f7fa;
-
-    --sec-coping:    #e53935;
-    --sec-adaptive:  #fb8c00;
-    --sec-transform: #3949ab;
-    --sec-systemic:  #00897b;
-    --sec-cross:     #546e7a;
+    --accent:       #b91c1c;
+    --accent-light: rgba(185, 28, 28, 0.08);
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: "Inter", "Segoe UI", sans-serif;
-    background: #f4f6f8;
-    color: #1a1a2e;
-    min-height: 100vh;
-  }
-
-  header {
-    background: #1a1a2e;
-    color: white;
-    padding: 20px 32px 16px;
-  }
-  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.02em; }
-  header p  { font-size: 0.8rem; color: #aab; margin-top: 4px; }
-
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    padding: 12px 32px;
-    background: #fff;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  .leg-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 0.72rem; font-weight: 600;
-    color: #333;
-  }
-  .leg-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .leg-sep { color: #ccc; margin: 0 4px; }
-
-  .filter-bar {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    padding: 12px 32px;
-    background: #f4f6f8;
-    border-bottom: 1px solid #e0e0e0;
-    align-items: center;
-  }
-  .filter-bar span { font-size: 0.75rem; color: #666; margin-right: 4px; }
-  .filter-btn {
-    padding: 4px 12px; border-radius: 20px; border: 1.5px solid #ccc;
-    background: white; cursor: pointer; font-size: 0.72rem; font-weight: 600;
-    transition: all 0.15s;
-  }
-  .filter-btn:hover  { border-color: #555; background: #f0f0f0; }
-  .filter-btn.active { border-color: #1a1a2e; background: #1a1a2e; color: white; }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    padding: 20px 32px 40px;
-  }
-
-  .card {
-    background: white;
-    border-radius: 8px;
-    border: 1.5px solid #e0e0e0;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: box-shadow 0.15s, transform 0.1s;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    border-radius: 8px 0 0 8px;
-  }
-  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); transform: translateY(-1px); }
-  .card.expanded { box-shadow: 0 6px 24px rgba(0,0,0,0.16); }
-
-  .cat-program  { border-color: var(--col-program);  }
-  .cat-program::before  { background: var(--col-program); }
-  .cat-data     { border-color: var(--col-data);     }
-  .cat-data::before     { background: var(--col-data); }
-  .cat-inst     { border-color: var(--col-inst);     }
-  .cat-inst::before     { background: var(--col-inst); }
-  .cat-tech     { border-color: var(--col-tech);     }
-  .cat-tech::before     { background: var(--col-tech); }
-  .cat-law      { border-color: var(--col-law);      }
-  .cat-law::before      { background: var(--col-law); }
-  .cat-policy   { border-color: var(--col-policy);   }
-  .cat-policy::before   { background: var(--col-policy); }
-
-  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-
-  .term-name {
-    font-size: 0.9rem; font-weight: 700; line-height: 1.3;
-    flex: 1;
-  }
-  .cat-badge {
-    font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; padding: 2px 7px; border-radius: 10px;
-    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
-  }
-  .cat-program .cat-badge  { background: var(--col-program-bg); color: var(--col-program); }
-  .cat-data    .cat-badge  { background: var(--col-data-bg);    color: var(--col-data); }
-  .cat-inst    .cat-badge  { background: var(--col-inst-bg);    color: var(--col-inst); }
-  .cat-tech    .cat-badge  { background: var(--col-tech-bg);    color: var(--col-tech); }
-  .cat-law     .cat-badge  { background: var(--col-law-bg);     color: var(--col-law); }
-  .cat-policy  .cat-badge  { background: var(--col-policy-bg);  color: var(--col-policy); }
-
-  .summary {
-    font-size: 0.76rem; color: #555; margin-top: 6px; line-height: 1.5;
-  }
-
-  .full-def {
-    display: none;
-    font-size: 0.75rem; color: #333; margin-top: 10px;
-    border-top: 1px solid #eee; padding-top: 10px; line-height: 1.6;
-  }
-  .card.expanded .full-def { display: block; }
-
-  .sections {
-    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;
-  }
-  .sec-pill {
-    font-size: 0.6rem; font-weight: 700; padding: 2px 8px;
-    border-radius: 10px; color: white; white-space: nowrap;
-  }
-  .sec-cop { background: var(--sec-coping); }
-  .sec-ada { background: var(--sec-adaptive); }
-  .sec-trn { background: var(--sec-transform); }
-  .sec-sys { background: var(--sec-systemic); }
-  .sec-X   { background: var(--sec-cross); }
-
-  .card.hidden { display: none; }
+  .sequencing { border-color: rgba(185,28,28,.18); }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Glossary Map — Windfall Welfare Preparedness: Kenya Case Study</h1>
-  <p>19 terms across 6 categories · Click any card to expand the full definition · Filter by category or paper section</p>
+<div id="progress"></div>
+
+<!-- ── HEADER ──────────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <a href="https://windfalltrust.org" target="_blank" class="brand">Windfall Trust</a>
+  <nav class="country-nav">
+    <a href="brazil.html">Brazil</a>
+    <a href="kenya.html" class="active">Kenya</a>
+  </nav>
+  <a href="#" class="header-dl">Download PDF</a>
 </header>
 
-<div class="legend">
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-program)"></div>Social Programs</div>
-  <div class="leg-sep">|</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-data)"></div>Data Systems</div>
-  <div class="leg-sep">|</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-inst)"></div>Institutions</div>
-  <div class="leg-sep">|</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-tech)"></div>Technology</div>
-  <div class="leg-sep">|</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-law)"></div>Laws &amp; Policy</div>
-  <div class="leg-sep">|</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--col-policy)"></div>Strategies &amp; Plans</div>
-  <div class="leg-sep">||</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-coping)"></div>Coping</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-adaptive)"></div>Adaptive</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-transform)"></div>Transformative</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-systemic)"></div>Systemic</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--sec-cross)"></div>Cross-cutting</div>
-</div>
+<!-- ── SECTION NAV ─────────────────────────────────────────────────────── -->
+<nav class="sec-nav" id="sec-nav">
+  <a href="#framework">Framework</a>
+  <a href="#coping"         data-dim="cop">01 · Coping</a>
+  <a href="#adaptive"       data-dim="ada">02 · Adaptive</a>
+  <a href="#transformative" data-dim="trn">03 · Transformative</a>
+  <a href="#systemic"       data-dim="sys">04 · Systemic</a>
+  <a href="#diagnosis">Diagnosis</a>
+  <a href="kenya-glossary.html" target="_blank">Glossary ↗</a>
+</nav>
 
-<div class="filter-bar">
-  <span>Filter:</span>
-  <button class="filter-btn active" data-filter="all">All 19</button>
-  <button class="filter-btn" data-filter="cat-program">Social Programs</button>
-  <button class="filter-btn" data-filter="cat-data">Data Systems</button>
-  <button class="filter-btn" data-filter="cat-inst">Institutions</button>
-  <button class="filter-btn" data-filter="cat-tech">Technology</button>
-  <button class="filter-btn" data-filter="cat-law">Laws &amp; Policy</button>
-  <button class="filter-btn" data-filter="cat-policy">Strategies &amp; Plans</button>
-  <button class="filter-btn" data-filter="sec-cop">Coping</button>
-  <button class="filter-btn" data-filter="sec-ada">Adaptive</button>
-  <button class="filter-btn" data-filter="sec-trn">Transformative</button>
-  <button class="filter-btn" data-filter="sec-sys">Systemic</button>
-</div>
+<!-- ── HERO ───────────────────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="series-tag">Welfare Preparedness Series</div>
+    <h1>Welfare Preparedness:<br><em>Kenya</em></h1>
+    <p class="hero-sub">How prepared is Kenya's welfare system for the economic changes associated with the AI transition? This case study applies Windfall Trust's Welfare Resilience Framework across four dimensions of institutional capacity.</p>
 
-<div class="grid" id="grid">
-
-  <!-- ── SOCIAL PROGRAMS ── -->
-
-  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop sec-X">
-    <div class="card-header">
-      <div class="term-name">Inua Jamii Cash Transfer Programme</div>
-      <div class="cat-badge">Social Program</div>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num" data-target="83" data-suffix="%">83%</div>
+        <div class="stat-lbl">of workers in informal employment — lacking contributory social protection</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="4.6" data-suffix="M">4.6M</div>
+        <div class="stat-lbl">registered M-Pesa agents — the backbone of Kenya's digital payment reach</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="5.7" data-suffix="M">5.7M</div>
+        <div class="stat-lbl">Inua Jamii cash transfer recipients across elderly, disabled, and orphan programmes</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-target="22" data-suffix="%">22%</div>
+        <div class="stat-lbl">of Kenyan workers estimated in occupations with high AI-substitution potential</div>
+      </div>
     </div>
-    <div class="summary">Kenya's flagship multi-component cash transfer covering older persons, persons with severe disabilities, and orphans and vulnerable children — the primary income floor for the most vulnerable households.</div>
-    <div class="full-def">The Inua Jamii programme is Kenya's main social assistance initiative, administered by the Ministry of Labour and Social Protection. It comprises three sub-programmes: the Older Persons Cash Transfer (OPCT), the Cash Transfer for Persons with Severe Disabilities (PWSD-CT), and the Cash Transfer for Orphans and Vulnerable Children (CT-OVC). In this paper it is the primary income floor for households outside the labour market and a key mechanism for weathering income shocks. Coverage remains limited relative to the scale of vulnerability — it does not reach informal workers above its means threshold who fall outside the programme's target categories — and benefit levels are modest relative to the poverty line.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
-        <span class="sec-pill sec-X">Cross-cutting</span>
+
+    <div class="ctas">
+      <a href="#" class="btn-pri">Download PDF</a>
+      <a href="kenya-glossary.html" target="_blank" class="btn-sec">Interactive Glossary</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRAMEWORK ───────────────────────────────────────────────────────── -->
+<section class="cs-section" id="framework">
+  <div class="inner fade">
+    <div class="sec-label">The Welfare Resilience Framework</div>
+    <h2 class="sec-title">Four dimensions of institutional capacity</h2>
+    <p class="sec-body">The framework links three elements in sequence: economic risks created by technological change, policy instruments intended to address those risks, and the enabling infrastructure required to deliver those policies effectively. Its central premise is that policy ambition must be matched by institutional capacity.</p>
+
+    <div class="fw-layout">
+      <div class="fw-table">
+        <div class="fw-row cop">
+          <div class="fw-cell fw-cell--name">Disruptive Risk</div>
+          <div class="fw-cell">Short-term shocks such as sudden income loss, unstable hours, or rapid firm-level restructuring. These test a system's coping capacity, meaning its ability to stabilise households quickly and prevent hardship when labour market conditions shift abruptly.</div>
+        </div>
+        <div class="fw-row ada">
+          <div class="fw-cell fw-cell--name">Transitional Risks</div>
+          <div class="fw-cell">Risks that arise over the medium term as tasks, occupations and sectors reconfigure. These require adaptive capacity: institutions capable of supporting worker mobility, re-skilling and reallocation as the structure of employment evolves.</div>
+        </div>
+        <div class="fw-row trn">
+          <div class="fw-cell fw-cell--name">Structural Risks</div>
+          <div class="fw-cell">Risks that emerge gradually through long-run shifts in the relationship between labour, wages and productivity. These test transformative capacity, whether fiscal and welfare institutions are deep enough to manage persistent inequality, regional divergence or changes in how economic value is distributed.</div>
+        </div>
+        <div class="fw-row sys">
+          <div class="fw-cell fw-cell--name">Access &amp; Delivery Risks</div>
+          <div class="fw-cell">Systemic capacity which includes the administrative, legal, fiscal and digital systems that allow policies to function in practice. The framework emphasises that even well-designed policies will fail if these enabling conditions are weak.</div>
+        </div>
+      </div>
+
+      <div class="fw-callouts">
+        <div class="fw-callout fw-callout--top">
+          <span class="arrow">←</span>
+          <p>The framework distinguishes between three time horizons of risk</p>
+        </div>
+        <div class="fw-callout fw-callout--bot">
+          <span class="arrow">←</span>
+          <p>Across all three horizons sits a fourth risk dimension</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fw-cards">
+      <div class="fw-card cop">
+        <div class="fw-num">01</div>
+        <div class="fw-name">Coping</div>
+        <div class="fw-sub">Short-term shocks and income stabilisation. Can the system absorb sudden disruption?</div>
+      </div>
+      <div class="fw-card ada">
+        <div class="fw-num">02</div>
+        <div class="fw-name">Adaptive</div>
+        <div class="fw-sub">Medium-term transition as tasks and occupations reconfigure. Can the system support re-skilling?</div>
+      </div>
+      <div class="fw-card trn">
+        <div class="fw-num">03</div>
+        <div class="fw-name">Transformative</div>
+        <div class="fw-sub">Long-run structural shifts in labour, capital, and welfare financing. Can the system sustain itself?</div>
+      </div>
+      <div class="fw-card sys">
+        <div class="fw-num">04</div>
+        <div class="fw-name">Systemic</div>
+        <div class="fw-sub">Administrative, legal, fiscal, and digital infrastructure underpinning all three horizons.</div>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop">
-    <div class="card-header">
-      <div class="term-name">Hunger Safety Net Programme (HSNP)</div>
-      <div class="cat-badge">Social Program</div>
+<!-- ══ 01 · COPING ══════════════════════════════════════════════════════ -->
+<section class="dim-sec cop" id="coping">
+  <div class="inner">
+    <div class="dim-header fade">
+      <span class="dim-number">01</span>
+      <span class="dim-badge">Coping</span>
+      <span class="dim-title">Disruptive Risks</span>
     </div>
-    <div class="summary">Shock-responsive cash transfer in arid and semi-arid counties, linked to drought early-warning triggers — Kenya's closest existing model for rules-based automatic scale-up.</div>
-    <div class="full-def">A government programme supported by development partners, providing regular and shock-responsive cash transfers to households in Kenya's arid and semi-arid land (ASAL) counties. It is explicitly designed to scale up automatically when NDMA early-warning drought triggers are met — making it the most developed example of a rules-based automatic stabiliser in Kenya's welfare architecture. In this paper it matters as both an operational safety net and a proof of concept for extending trigger-based responses from climate shocks to economic and labour market shocks. Its limitation is geographic: it reaches only ASAL counties and is not calibrated for the gradual service-sector income shocks that AI-related displacement is more likely to produce.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
+    <div class="core-risk fade">
+      <div class="risk-lbl">Core Risk</div>
+      <div class="risk-title">Kenya's welfare system already operates in a highly volatile labour market — AI-driven disruptions will compound existing coping gaps</div>
+      <div class="risk-body">Most workers earn income through informal trade, smallholder agriculture, casual services, and self-employment. Earnings fluctuate frequently, and administrative systems rarely observe these changes in real time. AI is expanding digital labour markets, increasing automation of routine service tasks, and intensifying global competition in digitally traded services. Kenya has some institutional capacity to respond to income shocks — Inua Jamii provides regular support to vulnerable households, and mobile money enables large-scale digital payments — but the system stabilises only part of the labour market.</div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">What already exists</div>
+      <div class="exists-grid">
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Inua Jamii Programme</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's social assistance umbrella covering the Older Persons Cash Transfer, Persons with Severe Disabilities Cash Transfer, and Orphans and Vulnerable Children Cash Transfer. Reaches approximately 5.7 million beneficiaries. Provides a regular income floor but eligibility is categorical — it does not function as a broad unemployment buffer.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">M-Pesa &amp; Mobile Money</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's mobile money infrastructure reaches ~74% of adults with active accounts. Demonstrated scale-up capacity during COVID-19, when waived transaction fees and direct M-Pesa government transfers reached millions quickly. A powerful delivery layer, but not a standing welfare instrument on its own.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Hunger Safety Net Programme</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Drought-responsive cash transfers in arid and semi-arid counties, scaled up as county-level food insecurity indicators cross thresholds. Demonstrates responsive design, but geographic scope is limited to climate-stressed counties — not a general income-shock response mechanism.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">NSSF (National Social Security Fund)</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Contributory savings scheme covering formal employees. Provides lump-sum benefits on retirement, death, or emigration. Coverage excludes informal workers; contribution levels and benefit adequacy are limited. Does not function as unemployment insurance.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">Policy priorities</div>
+      <div class="policy-tabs">
+        <button class="tab-btn now active" data-tab="cop-now">✓ Actionable Now</button>
+        <button class="tab-btn blocked"    data-tab="cop-blocked">→ Requires Enabling Conditions</button>
+      </div>
+      <div class="tab-panel active" id="cop-now">
+        <ul class="policy-list now">
+          <li>Use mobile money platforms for rapid transfer scale-up to households showing income-shock signals from administrative data — building on the COVID-19 precedent.</li>
+          <li>Strengthen integration between county-level drought response and national social registry targeting, so AI-linked informal-sector disruptions can be identified and responded to.</li>
+        </ul>
+      </div>
+      <div class="tab-panel" id="cop-blocked">
+        <ul class="policy-list blocked">
+          <li>A standing automatic income-stabiliser for informal workers requires a national social registry with sufficient informal-sector coverage and a legal basis for automatic eligibility triggers.</li>
+          <li>Extending contributory unemployment protection beyond the formal sector requires NSSF reform and a viable contribution mechanism for gig and platform workers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fade">
+      <div class="subsec-title">Key terms</div>
+      <div class="chips-wrap">
+        <span class="chip program" data-term="Inua Jamii">Inua Jamii</span>
+        <span class="chip program" data-term="Hunger Safety Net Programme">Hunger Safety Net Programme</span>
+        <span class="chip program" data-term="Kazi Mtaani">Kazi Mtaani</span>
+        <span class="chip tech"    data-term="M-Pesa">M-Pesa</span>
+        <span class="chip data"    data-term="NDMA Early Warning System">NDMA Early Warning System</span>
+        <span class="chip inst"    data-term="NDMA">NDMA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 02 · ADAPTIVE ════════════════════════════════════════════════════ -->
+<section class="dim-sec ada alt" id="adaptive">
+  <div class="inner">
+    <div class="dim-header fade">
+      <span class="dim-number">02</span>
+      <span class="dim-badge">Adaptive</span>
+      <span class="dim-title">Transitional Risks</span>
+    </div>
+    <div class="core-risk fade">
+      <div class="risk-lbl">Core Risk</div>
+      <div class="risk-title">Kenya's training institutions were not designed to absorb mid-career AI-driven transitions at scale</div>
+      <div class="risk-body">Kenya's main disruptive risks arise from multiple sources of income volatility, including informal workers without income protection, climate-exposed rural households, young workers in unstable service sectors, and workers in digitally mediated and outsourcing activities where contracts are increasingly fragmented. No general pathway exists for mid-career workers displaced by AI into AI-complementary jobs. The TVET system mainly serves youth. Skills mismatches are pronounced: high-AI-exposure occupations require digital literacy and data skills that are underrepresented in the current working-age population.</div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">What already exists</div>
+      <div class="exists-grid">
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">TVET Authority</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">The Technical and Vocational Education and Training Authority coordinates Kenya's vocational training system. Over 1,000 accredited institutions nationwide. Primary focus is on youth and pre-employment training; mid-career upskilling for displaced adults is not the standing mandate.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Ajira Digital Programme</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Government initiative to connect young Kenyans to online freelancing and digital work opportunities, with training in digital skills. Demonstrates demand for digital-economy access; but scope is primarily youth-focused and does not yet operate at a scale sufficient to absorb mass AI-driven transitions.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Konza Technopolis / Digital Economy</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's flagship digital economy infrastructure investment, positioned to attract BPO, IT, and AI-adjacent industry. Creates some demand for digital skills but does not directly deliver retraining capacity for currently displaced workers.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">Policy priorities</div>
+      <div class="policy-tabs">
+        <button class="tab-btn now active" data-tab="ada-now">✓ Actionable Now</button>
+        <button class="tab-btn blocked"    data-tab="ada-blocked">→ Requires Enabling Conditions</button>
+      </div>
+      <div class="tab-panel active" id="ada-now">
+        <ul class="policy-list now">
+          <li>Expand Ajira Digital's reach to mid-career workers and integrate with social registry targeting to identify AI-displaced populations for priority outreach.</li>
+          <li>Use TVET Authority to develop and pilot AI-complementary curriculum modules — data literacy, digital service delivery, AI-assisted productivity — for adult learners in high-exposure sectors.</li>
+        </ul>
+      </div>
+      <div class="tab-panel" id="ada-blocked">
+        <ul class="policy-list blocked">
+          <li>A proactive mid-career transition system requires employer data linkage, a national skills registry, and a funding mechanism — none of which currently exist at sufficient scale.</li>
+          <li>Enforceable AI rights in employment contexts require a national AI governance framework that is still under development.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fade">
+      <div class="subsec-title">Key terms</div>
+      <div class="chips-wrap">
+        <span class="chip program" data-term="Ajira Digital">Ajira Digital</span>
+        <span class="chip inst"    data-term="TVET Authority">TVET Authority</span>
+        <span class="chip inst"    data-term="NEA">NEA</span>
+        <span class="chip data"    data-term="KLMIS">KLMIS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 03 · TRANSFORMATIVE ══════════════════════════════════════════════ -->
+<section class="dim-sec trn" id="transformative">
+  <div class="inner">
+    <div class="dim-header fade">
+      <span class="dim-number">03</span>
+      <span class="dim-badge">Transformative</span>
+      <span class="dim-title">Structural Risks</span>
+    </div>
+    <div class="core-risk fade">
+      <div class="risk-lbl">Core Risk</div>
+      <div class="risk-title">Kenya's welfare financing depends on a narrow formal-sector tax base that AI-driven informalization will further erode</div>
+      <div class="risk-body">Kenya's fiscal capacity for welfare is constrained by a narrow formal-sector revenue base. AI investment is likely to deepen regional concentration around Nairobi, widening already large urban-rural welfare gaps. The emerging digital-economy framework does not yet create welfare-oriented value-capture mechanisms tied to AI infrastructure growth. Long-run structural transformation — including the shift toward capital-intensive AI production — poses challenges to a tax system still heavily reliant on formal-sector payroll and consumption taxes.</div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">What already exists</div>
+      <div class="exists-grid">
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Kenya Revenue Authority (KRA)</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">KRA administers tax collection and has been expanding digital tax compliance infrastructure. Digital service taxes have been introduced for non-resident digital service providers. A partial step toward capturing value from the digital economy, but the rate and coverage remain limited.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Digital Service Tax</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">1.5% tax on gross transaction value of digital marketplace services provided or facilitated by non-residents. Applies to streaming, ride-hailing, and online marketplaces. Does not capture profits from AI infrastructure or broader capital income from AI-led productivity gains.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">Policy priorities</div>
+      <div class="policy-tabs">
+        <button class="tab-btn now active" data-tab="trn-now">✓ Actionable Now</button>
+        <button class="tab-btn blocked"    data-tab="trn-blocked">→ Requires Enabling Conditions</button>
+      </div>
+      <div class="tab-panel active" id="trn-now">
+        <ul class="policy-list now">
+          <li>Publish an annual territorial assessment of AI-linked shifts in taxable activity, formal employment, and household vulnerability — making structural risk visible before it becomes acute.</li>
+        </ul>
+      </div>
+      <div class="tab-panel" id="trn-blocked">
+        <ul class="policy-list blocked">
+          <li>Expanding the welfare revenue base to capture AI-linked capital income gains requires tax reform and political commitment that does not currently exist.</li>
+          <li>Tying AI infrastructure investments (data centres, cloud providers) to local welfare contributions requires a regulatory framework that is not yet in place.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fade">
+      <div class="subsec-title">Key terms</div>
+      <div class="chips-wrap">
+        <span class="chip program" data-term="SHIF">SHIF</span>
+        <span class="chip law"     data-term="KES 30,000 Exemption">KES 30,000 Exemption</span>
+        <span class="chip policy"  data-term="National AI Strategy">National AI Strategy</span>
+        <span class="chip tech"    data-term="Maisha Namba">Maisha Namba</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 04 · SYSTEMIC ════════════════════════════════════════════════════ -->
+<section class="dim-sec sys alt" id="systemic">
+  <div class="inner">
+    <div class="dim-header fade">
+      <span class="dim-number">04</span>
+      <span class="dim-badge">Systemic</span>
+      <span class="dim-title">Access &amp; Delivery Risks</span>
+    </div>
+    <div class="core-risk fade">
+      <div class="risk-lbl">Core Risk</div>
+      <div class="risk-title">Kenya's administrative systems lack the beneficiary visibility and data quality needed to respond proactively to AI-driven displacement</div>
+      <div class="risk-body">Kenya's social assistance eligibility determination relies on categorical targeting with limited dynamic updating. The single registry is not connected to labour-market administrative data in ways that would allow proactive identification of AI-displaced workers. Mobile money provides a powerful delivery channel, but identifying who needs support — rather than delivering it once targeted — is the binding constraint. Digital exclusion remains significant in rural and pastoralist areas.</div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">What already exists</div>
+      <div class="exists-grid">
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Single Registry (NSSF / NASSEP)</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's social protection administrative registry, covering beneficiaries of Inua Jamii and other programmes. Not connected to labour-market administrative data. Coverage of the informal sector is limited; proactive targeting of newly displaced workers is not within the system's current design.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Huduma Namba (National ID)</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's national biometric identity system, intended to serve as a foundation for service delivery and data linkage across government. Implementation has faced legal and technical challenges. Where functional, it provides a potential anchor for social protection data integration.</div>
+        </div>
+        <div class="exists-card">
+          <div class="exists-toggle"><span class="exists-name">Kenya Data Protection Act (2019)</span><span class="exists-arrow">▾</span></div>
+          <div class="exists-body">Kenya's data protection legislation, establishing the Office of the Data Protection Commissioner. Provides a legal basis for regulating data use in AI-driven administrative decisions, but enforcement capacity and AI-specific guidance are still developing.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade">
+      <div class="subsec-title">Policy priorities</div>
+      <div class="policy-tabs">
+        <button class="tab-btn now active" data-tab="sys-now">✓ Actionable Now</button>
+        <button class="tab-btn blocked"    data-tab="sys-blocked">→ Requires Enabling Conditions</button>
+      </div>
+      <div class="tab-panel active" id="sys-now">
+        <ul class="policy-list now">
+          <li>Integrate mobile money transaction data with the single registry on an opt-in basis to improve dynamic beneficiary identification and income-shock detection.</li>
+          <li>Publish guidance on how the Data Protection Act applies to algorithmic decision-making in social protection contexts, building on the Office of the Data Protection Commissioner's mandate.</li>
+        </ul>
+      </div>
+      <div class="tab-panel" id="sys-blocked">
+        <ul class="policy-list blocked">
+          <li>A proactive, real-time targeting system for AI-displaced workers requires labour-market administrative data linkage and a legal basis for prospective use of individual records.</li>
+          <li>Enforceable rights to human review and explanation for automated welfare decisions require AI-specific regulation that is not yet enacted.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fade">
+      <div class="subsec-title">Key terms</div>
+      <div class="chips-wrap">
+        <span class="chip data"    data-term="Enhanced Single Registry">Enhanced Single Registry (ESR)</span>
+        <span class="chip data"    data-term="KLMIS">KLMIS</span>
+        <span class="chip tech"    data-term="M-Pesa">M-Pesa</span>
+        <span class="chip tech"    data-term="eCitizen">eCitizen</span>
+        <span class="chip tech"    data-term="Maisha Namba">Maisha Namba</span>
+        <span class="chip inst"    data-term="Central Bank of Kenya">Central Bank of Kenya</span>
+        <span class="chip inst"    data-term="Ministry of Labour">Ministry of Labour</span>
+        <span class="chip policy"  data-term="Financial Inclusion Strategy">Financial Inclusion Strategy</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── DIAGNOSIS ────────────────────────────────────────────────────────── -->
+<section class="cs-section alt" id="diagnosis">
+  <div class="inner">
+    <div class="sec-label fade">Diagnosis &amp; Conclusion</div>
+    <h2 class="sec-title fade">Overall welfare risk profile</h2>
+
+    <div class="diag-grid fade">
+      <div class="diag-card">
+        <div class="diag-lbl">Most pressing risk</div>
+        <div class="diag-name"><span class="hl-sys">Systemic</span> — administrative visibility gap</div>
+        <div class="diag-body">Kenya's delivery infrastructure (mobile money, county networks) is strong, but identifying who needs support is the binding constraint. The single registry lacks coverage of the informal sector and is not connected to labour-market data in ways that would enable proactive responses to AI-driven displacement.</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-lbl">Strongest capacity dimension</div>
+        <div class="diag-name"><span class="hl-cop">Coping</span> — mobile delivery infrastructure</div>
+        <div class="diag-body">M-Pesa and Kenya's mobile money ecosystem provide delivery reach that few lower-middle-income economies can match. COVID-19 demonstrated the system can move cash to millions rapidly. The challenge is connecting this delivery capacity to an identification and targeting system that can respond to AI-linked disruptions.</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-lbl">Most fragile capacity dimension</div>
+        <div class="diag-name"><span class="hl-trn">Transformative</span> — revenue base</div>
+        <div class="diag-body">Kenya's fiscal capacity for welfare is constrained and vulnerable to AI-driven formality erosion. The digital service tax is a beginning, but capturing value from AI-linked capital income at meaningful scale requires deeper tax reform and political commitment not currently in evidence.</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-lbl">Key data gap</div>
+        <div class="diag-name">Informal-sector AI exposure is unmeasured</div>
+        <div class="diag-body">With 83% informality, Kenya lacks the administrative data to assess how AI is affecting the distribution of work, income, and vulnerability across the majority of its workforce. Without this visibility, both policy design and targeting are necessarily reactive rather than proactive.</div>
+      </div>
+    </div>
+
+    <div class="sequencing fade">
+      <div class="seq-lbl">Strategic Sequencing</div>
+      <div class="seq-phases">
+        <div class="seq-phase">
+          <div class="seq-tag near">Near-term</div>
+          <div class="seq-text">Improve administrative visibility: opt-in mobile money data integration with the single registry, guidance on Data Protection Act application to welfare AI systems, and a territorial assessment of AI-linked labour-market shifts. Achievable within existing institutional authority.</div>
+        </div>
+        <div class="seq-phase">
+          <div class="seq-tag mid">Medium-term</div>
+          <div class="seq-text">Build the targeting and retraining connective tissue: labour-market data linkage to the single registry, expansion of TVET and Ajira Digital to mid-career displaced workers, and an AI governance framework that includes worker rights protections.</div>
+        </div>
+        <div class="seq-phase">
+          <div class="seq-tag long">Longer-term</div>
+          <div class="seq-text">Resolve the revenue-base constraint by expanding welfare financing beyond formal-sector payroll — requires sustained political commitment to digital economy taxation and welfare financing reform.</div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="card cat-program" data-cats="cat-program" data-secs="sec-cop">
-    <div class="card-header">
-      <div class="term-name">Kazi Mtaani</div>
-      <div class="cat-badge">Social Program</div>
-    </div>
-    <div class="summary">Government public works programme providing temporary paid employment to urban youth; reached approximately 300,000 beneficiaries during the COVID-19 pandemic.</div>
-    <div class="full-def">A government-administered public employment programme that provided temporary income support through short-term work assignments, primarily to urban youth. During the COVID-19 pandemic it reached approximately 300,000 beneficiaries, demonstrating Kenya's ability to mobilise emergency employment at meaningful scale. In this paper it matters as evidence of emergency deployment capacity. Its limitations for AI-related labour market change are also clear: the programme is urban-focused, temporary by design, and administratively intensive — it addresses acute discrete shocks rather than the gradual structural displacement that AI is more likely to produce across service sectors.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
-      </div>
+<!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <a href="https://windfalltrust.org" target="_blank" class="footer-brand">Windfall Trust</a>
+    <div class="footer-links">
+      <a href="index.html">All Case Studies</a>
+      <a href="brazil.html">Brazil</a>
+      <a href="#">Download PDF</a>
     </div>
   </div>
+  <p class="footer-cite">Windfall Trust. <em>Welfare Preparedness: Kenya Case Study.</em> 2026. Part of the Welfare Preparedness Series applying Windfall Trust's Welfare Resilience Framework to assess national social protection systems ahead of the AI transition.</p>
+</footer>
 
-  <div class="card cat-program" data-cats="cat-program" data-secs="sec-ada">
-    <div class="card-header">
-      <div class="term-name">Ajira Digital Programme</div>
-      <div class="cat-badge">Social Program</div>
-    </div>
-    <div class="summary">Government digital skills and online work access programme targeting youth and job seekers; Kenya's main policy instrument for entry into digital labour markets.</div>
-    <div class="full-def">A government programme providing digital skills training and access to online work platforms, primarily targeting youth and job seekers. It aims to expand participation in online labour markets and build foundational digital competencies. In this paper it is Kenya's main explicit policy response to the shift toward digital and platform work — establishing institutional responsibility for digital employment and creating entry points into online labour markets. Its limitations for AI-related transition are significant: there is limited evidence on sustained earnings outcomes, no systematic progression pathway from entry-level tasks to higher-skill roles, and no mechanism addressing income instability or career development for workers already working on platforms.
-      <div class="sections">
-        <span class="sec-pill sec-ada">Adaptive</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-program" data-cats="cat-program" data-secs="sec-trn">
-    <div class="card-header">
-      <div class="term-name">Social Health Insurance Fund (SHIF)</div>
-      <div class="cat-badge">Social Program</div>
-    </div>
-    <div class="summary">Health coverage reform replacing the National Hospital Insurance Fund (NHIF); designed to extend health protection to informal households through revised contribution and registration arrangements.</div>
-    <div class="full-def">A major structural reform to Kenya's health coverage system, replacing the National Hospital Insurance Fund (NHIF) with a redesigned fund intended to extend health protection beyond formal employment. The SHIF aims to reach informal and lower-income households through revised contribution models and registration pathways. In this paper it represents Kenya's most significant recent expansion of social protection beyond the formal sector — widening the pool of households covered by a major welfare benefit. Its relevance to AI transition is primarily structural: extending health coverage reduces one of the most significant vulnerabilities facing informal workers who lack employer-provided insurance, helping anchor household resilience during periods of labour market disruption.
-      <div class="sections">
-        <span class="sec-pill sec-trn">Transformative</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── DATA SYSTEMS ── -->
-
-  <div class="card cat-data" data-cats="cat-data" data-secs="sec-sys sec-X">
-    <div class="card-header">
-      <div class="term-name">Enhanced Single Registry (ESR)</div>
-      <div class="cat-badge">Data System</div>
-    </div>
-    <div class="summary">Integrated beneficiary database coordinating household and eligibility data across Kenya's social protection programmes; the central targeting infrastructure — but updates infrequently and lacks full interoperability.</div>
-    <div class="full-def">Kenya's integrated beneficiary registry, coordinating household information across multiple social protection programmes and managed by the Ministry of Labour and Social Protection. It provides a foundation for harmonised targeting and programme coordination. In this paper it is both the central data infrastructure for scaling responses to shocks and a binding constraint on access and delivery: the ESR updates infrequently, meaning household circumstances can change substantially before the registry reflects them. Interoperability with other administrative systems — digital identity, financial registries, labour data — remains incomplete, limiting the potential for automated, accurate eligibility determination.
-      <div class="sections">
-        <span class="sec-pill sec-sys">Systemic</span>
-        <span class="sec-pill sec-X">Cross-cutting</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-data" data-cats="cat-data" data-secs="sec-ada sec-sys">
-    <div class="card-header">
-      <div class="term-name">Kenya Labour Market Information System (KLMIS)</div>
-      <div class="cat-badge">Data System</div>
-    </div>
-    <div class="summary">National labour market data system operated by the National Employment Authority; covers formal employment but has limited visibility of platform, gig, and informal work where AI exposure is greatest.</div>
-    <div class="full-def">Kenya's primary national labour market data system, operated by the National Employment Authority (NEA). It centralises labour market statistics and supports employment service administration and job matching. In this paper it represents an important but incomplete data asset: its current coverage of informal, casual, and digital platform work is limited, creating a gap in the ability to monitor exactly the sectors where AI-related disruption is expanding fastest. Extending KLMIS to capture platform work participation, contract duration, and earnings volatility is a key enabling condition for both adaptive policy design and proactive identification of at-risk workers.
-      <div class="sections">
-        <span class="sec-pill sec-ada">Adaptive</span>
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-data" data-cats="cat-data" data-secs="sec-cop">
-    <div class="card-header">
-      <div class="term-name">NDMA Drought Early Warning System</div>
-      <div class="cat-badge">Data System</div>
-    </div>
-    <div class="summary">High-frequency climate and food security monitoring system for ASAL counties; generates indicators that automatically trigger HSNP emergency scale-up — Kenya's template for data-driven automatic stabilisers.</div>
-    <div class="full-def">A monitoring system operated by the National Drought Management Authority (NDMA) that tracks climate, food security, and livelihood conditions across Kenya's arid and semi-arid land counties. It generates regular indicators that can trigger automatic scale-up of the Hunger Safety Net Programme, creating a functioning link between observed shocks and welfare response. In this paper it matters as the most developed example of a rules-based, data-driven trigger mechanism in Kenya's welfare architecture — providing a model for designing analogous mechanisms linked to labour market data rather than climate indicators. The main challenge is that the underlying data infrastructure for economic shocks does not yet exist at comparable frequency or resolution.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── INSTITUTIONS ── -->
-
-  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-ada">
-    <div class="card-header">
-      <div class="term-name">National Employment Authority (NEA)</div>
-      <div class="cat-badge">Institution</div>
-    </div>
-    <div class="summary">Government agency managing Kenya's public employment services and operating KLMIS; the institutional centre for job matching and labour market transition support.</div>
-    <div class="full-def">The government agency responsible for public employment services in Kenya, including operation of the Kenya Labour Market Information System (KLMIS) and delivery of job-matching and transition support services. In this paper it is the core institutional actor for managing labour market transitions. Its current limitations include limited integration with private employers and digital labour platforms, and weak coverage of informal and platform work within its data and service systems. Strengthening NEA's capacity to track and serve workers in digital and AI-exposed occupations is central to improving Kenya's adaptive capacity for the AI transition.
-      <div class="sections">
-        <span class="sec-pill sec-ada">Adaptive</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-ada sec-X">
-    <div class="card-header">
-      <div class="term-name">TVET System / TVET Authority</div>
-      <div class="cat-badge">Institution</div>
-    </div>
-    <div class="summary">Kenya's technical and vocational training network of approximately 2,300 institutions; the main skills pathway for the workforce, but curriculum updates are slow relative to the pace of AI-driven changes in labour demand.</div>
-    <div class="full-def">Kenya's Technical and Vocational Education and Training system, governed by the TVET Authority under the State Department for TVET. It comprises approximately 2,300 institutions nationwide, representing the largest formal training infrastructure in the country. In this paper it is the primary vehicle for skills development and workforce transition — but it faces fundamental alignment constraints: the curriculum update cycle is slow, digital and AI-adjacent content is uneven across institutions, and quality varies substantially between urban and rural locations. Aligning TVET content with AI-related labour demand — including supervisor-level and complementary skills rather than routine task training — is the central transition challenge in Kenya's adaptive capacity.
-      <div class="sections">
-        <span class="sec-pill sec-ada">Adaptive</span>
-        <span class="sec-pill sec-X">Cross-cutting</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-cop sec-sys">
-    <div class="card-header">
-      <div class="term-name">National Drought Management Authority (NDMA)</div>
-      <div class="cat-badge">Institution</div>
-    </div>
-    <div class="summary">Government authority managing drought risk and emergency response in ASAL counties; operates the early warning system that triggers HSNP scale-up — Kenya's reference institution for trigger-based welfare response.</div>
-    <div class="full-def">A government authority coordinating drought management and response across Kenya's arid and semi-arid land counties. The NDMA operates Kenya's drought early warning system, which tracks climate and food security conditions and generates the indicators that trigger automatic HSNP emergency top-ups. In this paper it matters as the institutional home of Kenya's most developed trigger-based response mechanism — and as a reference point for institutional design of analogous economic shock response systems. The challenge is that economic and labour market shocks require different data inputs and response architectures than climate-driven agricultural shocks.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-X">
-    <div class="card-header">
-      <div class="term-name">Ministry of Labour and Social Protection</div>
-      <div class="cat-badge">Institution</div>
-    </div>
-    <div class="summary">Central government ministry responsible for social assistance, employment policy, and the Enhanced Single Registry — the primary institutional coordinator of Kenya's welfare response to labour market change.</div>
-    <div class="full-def">The central government ministry responsible for social assistance programmes, employment policy, and social protection administration in Kenya. It administers the Inua Jamii programme, oversees the Enhanced Single Registry, coordinates with the National Employment Authority and the TVET Authority, and has lead responsibility for the policy responses considered in this paper. In this paper it functions as the primary institutional actor across all four welfare resilience dimensions — and the ministry through which most near-term and medium-term policy recommendations would need to be channelled to take effect.
-      <div class="sections">
-        <span class="sec-pill sec-X">Cross-cutting</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-inst" data-cats="cat-inst" data-secs="sec-sys">
-    <div class="card-header">
-      <div class="term-name">Central Bank of Kenya</div>
-      <div class="cat-badge">Institution</div>
-    </div>
-    <div class="summary">Monetary authority and regulator of Kenya's payment systems including mobile money; its oversight framework underpins the welfare delivery infrastructure that makes fast, low-cost cash transfers possible.</div>
-    <div class="full-def">Kenya's central bank and monetary authority, which regulates the financial system including mobile money operators such as Safaricom (M-Pesa). The Central Bank of Kenya's regulatory oversight shapes the conditions under which government transfers can reach beneficiaries through mobile money at low cost and at scale. In this paper it matters primarily as the institutional foundation for Kenya's mobile money infrastructure — the strongest delivery asset in the welfare system — and as the anchor for Kenya's National Financial Inclusion Strategy 2025–2028.
-      <div class="sections">
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── TECHNOLOGY ── -->
-
-  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-cop sec-sys sec-X">
-    <div class="card-header">
-      <div class="term-name">M-Pesa / Mobile Money Infrastructure</div>
-      <div class="cat-badge">Technology</div>
-    </div>
-    <div class="summary">Kenya's dominant mobile money platform and the primary delivery channel for government welfare transfers; over 80% of adults hold mobile money accounts — the strongest delivery asset in Kenya's welfare system.</div>
-    <div class="full-def">Kenya's dominant mobile money platform, operated by Safaricom, and the broader mobile money ecosystem surrounding it. More than 80% of Kenyan adults hold mobile money accounts. In this paper it is consistently identified as the most important operational asset in the welfare delivery system: once eligibility is confirmed, transfers can reach most beneficiaries quickly and at low cost. The paper makes a critical distinction between delivery capacity (strong) and identification and targeting capacity (weak): the binding constraints in Kenya's welfare system lie upstream of M-Pesa — in registry quality, enrolment systems, and eligibility determination — not in the payment rail itself.
-      <div class="sections">
-        <span class="sec-pill sec-cop">Coping</span>
-        <span class="sec-pill sec-sys">Systemic</span>
-        <span class="sec-pill sec-X">Cross-cutting</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-sys">
-    <div class="card-header">
-      <div class="term-name">eCitizen</div>
-      <div class="cat-badge">Technology</div>
-    </div>
-    <div class="summary">Kenya's central digital government platform for public service access — identification, licensing, applications, and payments — the primary digital interface between citizens and the state.</div>
-    <div class="full-def">Kenya's unified digital government platform that consolidates access to government services including identification, licensing, applications, and payments. In this paper it matters as part of Kenya's digital public infrastructure for welfare delivery and administrative access. Like mobile money, it reflects Kenya's strength in digital delivery systems — but it assumes internet access, digital literacy, and valid identity documentation, all of which constrain access for the rural and low-income populations most likely to need welfare support during an AI transition. The gap between platform availability and effective access is a recurring theme in the paper's access-and-delivery diagnosis.
-      <div class="sections">
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-tech" data-cats="cat-tech" data-secs="sec-trn sec-sys">
-    <div class="card-header">
-      <div class="term-name">Maisha Namba</div>
-      <div class="cat-badge">Technology</div>
-    </div>
-    <div class="summary">Kenya's new national digital identity system, replacing the legacy national ID with a Unique Personal Identifier — central to public service access, but enrolment gaps risk excluding marginalised populations from services.</div>
-    <div class="full-def">Kenya's new national digital identity system, replacing the legacy national ID card with a unified digital credential linked to a Unique Personal Identifier (UPI). As digital identity becomes the gateway to welfare services, government platforms, and financial products, Maisha Namba's coverage gaps matter directly for social protection access. In this paper it is the centre of a key access-and-delivery risk: populations unable to enrol — due to documentation barriers, geographic remoteness, or registration system failures — face exclusion from welfare services that are increasingly conditioned on digital identity verification. Litigation documented by Namati (2025) highlights that these exclusion risks are not hypothetical.
-      <div class="sections">
-        <span class="sec-pill sec-trn">Transformative</span>
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── LAWS & POLICY ── -->
-
-  <div class="card cat-law" data-cats="cat-law" data-secs="sec-trn">
-    <div class="card-header">
-      <div class="term-name">KES 30,000 Income Tax Exemption</div>
-      <div class="cat-badge">Policy</div>
-    </div>
-    <div class="summary">Fiscal policy removing income tax for formal workers earning below KES 30,000 per month — increases take-home pay for lower-income formal workers but leaves informal earners unaffected.</div>
-    <div class="full-def">A budget policy change exempting formal workers earning below KES 30,000 per month from income tax, representing the most recent shift in Kenya's tax-and-redistribution position relevant to structural risks. In this paper it matters as a targeted relief measure for lower-income formal workers. Two limitations frame its significance for the AI transition: it does not reach the more than 80% of workers in informal employment, who face no income tax and gain nothing from the exemption; and it narrows the formal tax base, reducing the fiscal space available for broader redistributive programmes. It illustrates a persistent tension in Kenya's welfare policy between immediate relief for formal workers and long-run fiscal capacity for universal coverage.
-      <div class="sections">
-        <span class="sec-pill sec-trn">Transformative</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── STRATEGIES & PLANS ── -->
-
-  <div class="card cat-policy" data-cats="cat-policy" data-secs="sec-trn sec-X">
-    <div class="card-header">
-      <div class="term-name">National AI Strategy 2025–2030</div>
-      <div class="cat-badge">Strategy</div>
-    </div>
-    <div class="summary">Kenya's five-year government AI strategy identifying priority sectors (agriculture, health, finance, public services) and signalling government intent to shape the direction and pace of AI adoption.</div>
-    <div class="full-def">Kenya's national AI strategy covering 2025–2030, which identifies priority sectors for AI adoption and development including agriculture, health, finance, and public services. It signals government intent to direct the focus of AI deployment and establishes a framework for cross-government coordination on AI-related policy. In this paper it matters as an enabling condition for long-term structural policy — but it is primarily a statement of direction rather than a funded operational programme. Strategy documents establish priorities and create inter-agency coordination hooks, but do not substitute for institutional capacity, regulatory frameworks, or dedicated fiscal commitments that would be needed to translate the strategy into welfare-relevant outcomes.
-      <div class="sections">
-        <span class="sec-pill sec-trn">Transformative</span>
-        <span class="sec-pill sec-X">Cross-cutting</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cat-policy" data-cats="cat-policy" data-secs="sec-sys">
-    <div class="card-header">
-      <div class="term-name">Kenya National Financial Inclusion Strategy 2025–2028</div>
-      <div class="cat-badge">Strategy</div>
-    </div>
-    <div class="summary">Multi-year government financial inclusion plan led by the Central Bank of Kenya; sets targets for expanding mobile money, digital accounts, and credit access for underserved populations.</div>
-    <div class="full-def">Kenya's multi-year financial inclusion plan, led by the Central Bank of Kenya in coordination with other ministries and agencies. It sets out targets for expanding access to financial services — including mobile money, digital accounts, and credit — for underserved populations including rural and low-income households. In this paper it matters as a coordination framework that underpins the welfare delivery infrastructure: broader financial inclusion reduces the barriers to reaching excluded populations with government transfers and strengthens the foundation on which Kenya's strongest delivery asset — mobile money — rests. Its relevance to AI transition is primarily systemic rather than programmatic.
-      <div class="sections">
-        <span class="sec-pill sec-sys">Systemic</span>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /grid -->
+<div class="tooltip" id="tooltip"><strong id="tt-name"></strong><span id="tt-body"></span></div>
 
 <script>
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('expanded');
-    });
+// ── KENYA GLOSSARY TERM DEFINITIONS ────────────────────────────────────
+const DEFS = {
+  "Inua Jamii": "Kenya's flagship multi-component cash transfer covering older persons, persons with severe disabilities, and orphans and vulnerable children — the primary income floor for the most vulnerable households.",
+  "Hunger Safety Net Programme": "Shock-responsive cash transfer in arid and semi-arid counties, linked to drought early-warning triggers — Kenya's closest existing model for rules-based automatic scale-up.",
+  "Kazi Mtaani": "Government public works programme providing temporary paid employment to urban youth; reached approximately 300,000 beneficiaries during the COVID-19 pandemic.",
+  "M-Pesa": "Kenya's dominant mobile money platform and the primary delivery channel for government welfare transfers; over 80% of adults hold mobile money accounts — the strongest delivery asset in Kenya's welfare system.",
+  "NDMA Early Warning System": "High-frequency climate and food security monitoring system for ASAL counties; generates indicators that automatically trigger HSNP emergency scale-up — Kenya's template for data-driven automatic stabilisers.",
+  "NDMA": "National Drought Management Authority. Coordinates drought management and operates the early warning system that triggers HSNP scale-up; Kenya's reference institution for trigger-based welfare response.",
+  "Ajira Digital": "Government digital skills and online work access programme targeting youth and job seekers; Kenya's main policy instrument for entry into digital labour markets.",
+  "TVET Authority": "Kenya's Technical and Vocational Education and Training Authority coordinating ~2,300 institutions nationwide — the main skills pathway for the workforce, but curriculum updates are slow relative to AI-driven labour demand changes.",
+  "NEA": "National Employment Authority. Government agency managing Kenya's public employment services and operating KLMIS; the institutional centre for job matching and labour market transition support.",
+  "KLMIS": "Kenya Labour Market Information System. National labour market data system operated by NEA; covers formal employment but has limited visibility of platform, gig, and informal work where AI exposure is greatest.",
+  "SHIF": "Social Health Insurance Fund. Health coverage reform replacing the National Hospital Insurance Fund (NHIF); designed to extend health protection to informal households through revised contribution and registration arrangements.",
+  "KES 30,000 Exemption": "Fiscal policy removing income tax for formal workers earning below KES 30,000 per month — increases take-home pay for lower-income formal workers but leaves informal earners unaffected.",
+  "National AI Strategy": "Kenya's five-year government AI strategy (2025–2030) identifying priority sectors and signalling government intent to shape the direction and pace of AI adoption.",
+  "Maisha Namba": "Kenya's new national digital identity system, replacing the legacy national ID with a Unique Personal Identifier — central to public service access, but enrolment gaps risk excluding marginalised populations from services.",
+  "Enhanced Single Registry": "Integrated beneficiary database coordinating household and eligibility data across Kenya's social protection programmes; the central targeting infrastructure — but updates infrequently and lacks full interoperability.",
+  "eCitizen": "Kenya's central digital government platform for public service access — identification, licensing, applications, and payments — the primary digital interface between citizens and the state.",
+  "Central Bank of Kenya": "Monetary authority and regulator of Kenya's payment systems including mobile money; its oversight framework underpins the welfare delivery infrastructure that makes fast, low-cost cash transfers possible.",
+  "Ministry of Labour": "Central government ministry responsible for social assistance, employment policy, and the Enhanced Single Registry — the primary institutional coordinator of Kenya's welfare response to labour market change.",
+  "Financial Inclusion Strategy": "Kenya National Financial Inclusion Strategy 2025–2028. Multi-year plan led by the Central Bank of Kenya; sets targets for expanding mobile money, digital accounts, and credit access for underserved populations.",
+};
+
+// ── PROGRESS BAR ───────────────────────────────────────────────────────
+const prog = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.width = (window.scrollY / total * 100) + '%';
+}, { passive: true });
+
+// ── SCROLL SPY ─────────────────────────────────────────────────────────
+const navLinks = document.querySelectorAll('.sec-nav a[href^="#"]');
+const sections = document.querySelectorAll('section[id]');
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const l = document.querySelector(`.sec-nav a[href="#${e.target.id}"]`);
+      if (l) l.classList.add('active');
+    }
   });
+}, { rootMargin: '-25% 0px -65% 0px' });
+sections.forEach(s => spy.observe(s));
 
-  const btns  = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.card');
+// ── ANIMATED STAT COUNTERS ─────────────────────────────────────────────
+function animateNum(el) {
+  const raw = el.dataset.target, suffix = el.dataset.suffix || '';
+  const isFloat = raw.includes('.'), target = parseFloat(raw);
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / 1400, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = (isFloat ? (target * ease).toFixed(1) : Math.floor(target * ease)) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateNum(e.target); counterObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
 
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-
-      cards.forEach(card => {
-        if (filter === 'all') {
-          card.classList.remove('hidden');
-          return;
-        }
-        const cats = (card.dataset.cats || '').split(' ');
-        const secs = (card.dataset.secs || '').split(' ');
-        const all  = [...cats, ...secs];
-        card.classList.toggle('hidden', !all.includes(filter));
-      });
-    });
+// ── ACCORDION ──────────────────────────────────────────────────────────
+document.querySelectorAll('.exists-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const card = toggle.closest('.exists-card');
+    const isOpen = card.classList.contains('open');
+    card.closest('.exists-grid').querySelectorAll('.exists-card.open').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
   });
+});
+
+// ── TAB SWITCHER ───────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.dataset.tab;
+    const container = btn.closest('.dim-sec') || btn.closest('section');
+    container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+
+// ── FADE-IN ────────────────────────────────────────────────────────────
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => fadeObs.observe(el));
+
+// ── GLOSSARY CHIP TOOLTIPS ─────────────────────────────────────────────
+const tooltip = document.getElementById('tooltip');
+const ttName  = document.getElementById('tt-name');
+const ttBody  = document.getElementById('tt-body');
+let hideTimer;
+function showTooltip(el, term) {
+  clearTimeout(hideTimer);
+  const def = DEFS[term]; if (!def) return;
+  ttName.textContent = term; ttBody.textContent = def;
+  tooltip.classList.add('visible');
+  const r = el.getBoundingClientRect(), tw = 300, th = tooltip.offsetHeight || 100;
+  let x = r.left, y = r.top - th - 8;
+  if (x + tw > window.innerWidth - 12) x = window.innerWidth - tw - 12;
+  if (y < 8) y = r.bottom + 8;
+  tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+}
+function hideTooltip() { hideTimer = setTimeout(() => tooltip.classList.remove('visible'), 120); }
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('mouseenter', () => showTooltip(chip, chip.dataset.term));
+  chip.addEventListener('mouseleave', hideTooltip);
+});
+tooltip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+tooltip.addEventListener('mouseleave', hideTooltip);
 </script>
 </body>
 </html>
